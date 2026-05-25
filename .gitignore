@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+
+# Odoo logs
+logs/
+*.log
+
+# PostgreSQL data
+postgres/
+*.sql
+
+# Local env
+.env
+.env.local
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Odoo filestore / sessions
+odoo-web-data/
+filestore/
+sessions/
+
+# Temporary
+tmp/
+temp/
+
+# Node
+node_modules/
+
+# Coverage / test
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build
+dist/
+build/
+
+# Backup
+*.bak
+*.backup
+
+# Local database dumps
+*.dump
