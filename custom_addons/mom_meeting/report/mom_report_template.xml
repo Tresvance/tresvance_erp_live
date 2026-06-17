@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_mom_meeting_document">
+    <t t-foreach="docs" t-as="doc">
+        <t t-call="web.basic_layout">
+            <t t-set="o" t-value="doc"/>
+
+            <div class="page" style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a2e; padding: 0;">
+
+                <div style="background: #1a1a2e; padding: 28px 36px 22px 36px; margin-bottom: 0;">
+
+                    <div style="text-align: center; margin-bottom: 18px;">
+                        <t t-if="doc.company_id.logo">
+                            <img t-att-src="'data:image/png;base64,' + doc.company_id.logo.decode('utf-8')"
+                                 style="max-width: 480px; width: 90%; height: auto; display: inline-block;"/>
+                        </t>
+                        <t t-else="">
+                            <span style="font-size: 22px; font-weight: 700; color: #ffffff; letter-spacing: 2px;">
+                                <t t-esc="doc.company_id.name"/>
+                            </span>
+                        </t>
+                    </div>
+
+                    <div style="border-top: 1px solid rgba(255,255,255,0.15); padding-top: 14px;">
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <div style="font-size: 9px; font-weight: 600; letter-spacing: 3px; color: #8ab4d4; text-transform: uppercase; margin-bottom: 4px;">Document</div>
+                                    <div style="font-size: 20px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px;">Minutes of Meeting</div>
+                                    <div style="font-size: 11px; color: #8ab4d4; margin-top: 3px;"><t t-esc="doc.name"/></div>
+                                </td>
+                                <td style="text-align: right; vertical-align: middle;">
+                                    <span style="background: #2ecc71; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px;">
+                                        <t t-esc="dict(doc.fields_get(['state'])['state']['selection'])[doc.state]"/>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="height: 4px; background: #2c6fad;"></div>
+
+                <div style="padding: 22px 36px 0 36px;">
+                    <table width="100%" style="border-collapse: collapse; font-size: 11.5px;">
+                        <tr>
+                            <td width="48%" style="vertical-align: top; padding-right: 20px; border-right: 1px solid #e8ecf0;">
+                                <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; margin-bottom: 10px;">Meeting Details</div>
+                                <table width="100%" style="border-collapse: collapse;">
+                                    <tr>
+                                        <td style="color: #6b7280; padding: 4px 0; width: 42%;">Meeting Title</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.meeting_title"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #6b7280; padding: 4px 0;">Date</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.meeting_date" t-options="{'widget':'date'}"/></td>
+                                    </tr>
+                                    <tr t-if="doc.location">
+                                        <td style="color: #6b7280; padding: 4px 0;">Location</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.location"/></td>
+                                    </tr>
+                                    <tr t-if="doc.meeting_duration">
+                                        <td style="color: #6b7280; padding: 4px 0;">Duration</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.meeting_duration"/> hrs</td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="4%"/>
+                            <td width="48%" style="vertical-align: top; padding-left: 20px;">
+                                <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; margin-bottom: 10px;">Project &amp; Personnel</div>
+                                <table width="100%" style="border-collapse: collapse;">
+                                    <tr>
+                                        <td style="color: #6b7280; padding: 4px 0; width: 45%;">Client</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.client_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="doc.client_contact_id">
+                                        <td style="color: #6b7280; padding: 4px 0;">Client Contact</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.client_contact_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="doc.project_id">
+                                        <td style="color: #6b7280; padding: 4px 0;">Project</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.project_id.name"/></td>
+                                    </tr>
+                                    <tr t-if="doc.project_type">
+                                        <td style="color: #6b7280; padding: 4px 0;">Project Type</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;">
+                                            <t t-esc="dict(doc.fields_get(['project_type'])['project_type']['selection'])[doc.project_type]"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #6b7280; padding: 4px 0;">Chaired By</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.chaired_by.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="color: #6b7280; padding: 4px 0;">Prepared By</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding: 4px 0;"><t t-esc="doc.prepared_by.name"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="padding: 18px 36px 0 36px;">
+                    <div style="background: #f0f5fb; border-radius: 6px; padding: 14px 18px;">
+                        <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; margin-bottom: 10px;">Participants</div>
+                        <table width="100%" style="font-size: 11px;">
+                            <tr>
+                                <td width="50%" style="vertical-align: top;">
+                                    <div style="font-weight: 600; color: #1a1a2e; margin-bottom: 5px;">Our Team</div>
+                                    <t t-foreach="doc.participant_ids" t-as="p">
+                                        <div style="color: #374151; padding: 2px 0;">&#8250; <t t-esc="p.name"/></div>
+                                    </t>
+                                    <t t-if="not doc.participant_ids"><span style="color:#9ca3af;">&#8212;</span></t>
+                                </td>
+                                <td width="50%" style="vertical-align: top; padding-left: 16px; border-left: 1px solid #d1dce8;">
+                                    <div style="font-weight: 600; color: #1a1a2e; margin-bottom: 5px;">Client Side</div>
+                                    <t t-foreach="doc.client_participant_ids" t-as="cp">
+                                        <div style="color: #374151; padding: 2px 0;">&#8250; <t t-esc="cp.name"/></div>
+                                    </t>
+                                    <t t-if="not doc.client_participant_ids"><span style="color:#9ca3af;">&#8212;</span></t>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="padding: 0 36px;">
+
+                    <t t-if="doc.agenda">
+                        <div style="margin-top: 18px;">
+                            <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; border-bottom: 1.5px solid #d1dce8; padding-bottom: 5px; margin-bottom: 8px;">Agenda</div>
+                            <div style="font-size: 11.5px; color: #374151; line-height: 1.6;"><t t-out="doc.agenda"/></div>
+                        </div>
+                    </t>
+
+                    <t t-if="doc.requirements_discussed">
+                        <div style="margin-top: 18px;">
+                            <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; border-bottom: 1.5px solid #d1dce8; padding-bottom: 5px; margin-bottom: 8px;">Requirements &amp; Discussion Points</div>
+                            <div style="font-size: 11.5px; color: #374151; line-height: 1.6;"><t t-out="doc.requirements_discussed"/></div>
+                        </div>
+                    </t>
+
+                    <t t-if="doc.project_update_notes">
+                        <div style="margin-top: 18px;">
+                            <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; border-bottom: 1.5px solid #d1dce8; padding-bottom: 5px; margin-bottom: 8px;">Project Status Update</div>
+                            <div style="font-size: 11.5px; color: #374151; line-height: 1.6;"><t t-out="doc.project_update_notes"/></div>
+                        </div>
+                    </t>
+
+                    <t t-if="doc.decisions_made">
+                        <div style="margin-top: 18px;">
+                            <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; border-bottom: 1.5px solid #d1dce8; padding-bottom: 5px; margin-bottom: 8px;">Decisions Made</div>
+                            <div style="font-size: 11.5px; color: #374151; line-height: 1.6;"><t t-out="doc.decisions_made"/></div>
+                        </div>
+                    </t>
+
+                    <t t-if="doc.action_item_ids">
+                        <div style="margin-top: 18px;">
+                            <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; border-bottom: 1.5px solid #d1dce8; padding-bottom: 5px; margin-bottom: 10px;">Action Items</div>
+                            <table width="100%" style="font-size: 11px; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #1a1a2e;">
+                                        <th style="padding: 8px 10px; text-align: left; color: #8ab4d4; font-weight: 600; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; width: 4%;">#</th>
+                                        <th style="padding: 8px 10px; text-align: left; color: #8ab4d4; font-weight: 600; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; width: 38%;">Action Item</th>
+                                        <th style="padding: 8px 10px; text-align: left; color: #8ab4d4; font-weight: 600; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; width: 20%;">Responsible</th>
+                                        <th style="padding: 8px 10px; text-align: left; color: #8ab4d4; font-weight: 600; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; width: 14%;">Deadline</th>
+                                        <th style="padding: 8px 10px; text-align: left; color: #8ab4d4; font-weight: 600; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; width: 12%;">Priority</th>
+                                        <th style="padding: 8px 10px; text-align: left; color: #8ab4d4; font-weight: 600; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; width: 12%;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.action_item_ids" t-as="ai">
+                                        <tr t-attf-style="background: {{ '#f8fafc' if ai_index % 2 == 0 else '#ffffff' }}; border-bottom: 1px solid #e8ecf0;">
+                                            <td style="padding: 8px 10px; color: #9ca3af; font-size: 10px;"><t t-esc="ai_index + 1"/></td>
+                                            <td style="padding: 8px 10px; color: #1a1a2e; font-weight: 500;">
+                                                <t t-esc="ai.description"/>
+                                                <t t-if="ai.carried_over">
+                                                    <span style="background: #fff3cd; color: #92600a; font-size: 9px; padding: 1px 6px; border-radius: 10px; margin-left: 5px; font-weight: 600;">Carried Over</span>
+                                                </t>
+                                            </td>
+                                            <td style="padding: 8px 10px; color: #374151;"><t t-esc="ai.responsible_id.name or '&#8212;'"/></td>
+                                            <td style="padding: 8px 10px; color: #374151;">
+                                                <t t-if="ai.deadline"><t t-esc="ai.deadline" t-options="{'widget':'date'}"/></t>
+                                                <t t-else="">&#8212;</t>
+                                            </td>
+                                            <td style="padding: 8px 10px;">
+                                                <t t-if="ai.priority == '2'">
+                                                    <span style="background: #fee2e2; color: #b91c1c; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Critical</span>
+                                                </t>
+                                                <t t-elif="ai.priority == '1'">
+                                                    <span style="background: #ffedd5; color: #c2410c; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px;">High</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="background: #f0fdf4; color: #15803d; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Normal</span>
+                                                </t>
+                                            </td>
+                                            <td style="padding: 8px 10px; color: #374151;">
+                                                <t t-esc="dict(ai.fields_get(['state'])['state']['selection'])[ai.state]"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+
+                    <t t-if="doc.next_meeting_date or doc.next_meeting_agenda">
+                        <div style="margin-top: 18px;">
+                            <div style="background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b; border-radius: 4px; padding: 12px 16px;">
+                                <div style="font-size: 9px; font-weight: 700; letter-spacing: 2px; color: #92600a; text-transform: uppercase; margin-bottom: 8px;">Next Meeting</div>
+                                <table style="font-size: 11.5px; border-collapse: collapse;">
+                                    <tr t-if="doc.next_meeting_date">
+                                        <td style="color: #6b7280; padding-right: 20px; padding-bottom: 4px;">Scheduled Date</td>
+                                        <td style="font-weight: 600; color: #1a1a2e; padding-bottom: 4px;">
+                                            <t t-esc="doc.next_meeting_date" t-options="{'widget':'date'}"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="doc.next_meeting_agenda">
+                                        <td style="color: #6b7280; padding-right: 20px; vertical-align: top;">Agenda</td>
+                                        <td style="color: #374151;"><t t-esc="doc.next_meeting_agenda"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-if="doc.general_notes">
+                        <div style="margin-top: 18px;">
+                            <div style="font-size: 9px; font-weight: 700; letter-spacing: 2.5px; color: #2c6fad; text-transform: uppercase; border-bottom: 1.5px solid #d1dce8; padding-bottom: 5px; margin-bottom: 8px;">Additional Notes</div>
+                            <div style="font-size: 11.5px; color: #374151; line-height: 1.6;"><t t-out="doc.general_notes"/></div>
+                        </div>
+                    </t>
+
+                </div>
+
+                <div style="margin-top: 36px; background: #1a1a2e; padding: 12px 36px;">
+                    <table width="100%" style="font-size: 10px; color: #8ab4d4;">
+                        <tr>
+                            <td><t t-esc="doc.name"/> &#8212; <t t-esc="doc.meeting_title"/></td>
+                            <td style="text-align: center; color: #4a5568;">Confidential</td>
+                            <td style="text-align: right;">
+                                <t t-esc="doc.meeting_date" t-options="{'widget':'date'}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </t>
+    </t>
+</template>
+</odoo>

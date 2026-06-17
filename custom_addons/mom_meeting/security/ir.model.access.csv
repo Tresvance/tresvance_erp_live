@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mom_meeting_user,mom.meeting.user,model_mom_meeting,base.group_user,1,1,1,0
+access_mom_meeting_manager,mom.meeting.manager,model_mom_meeting,base.group_system,1,1,1,1
+access_mom_action_item_user,mom.action.item.user,model_mom_action_item,base.group_user,1,1,1,0
+access_mom_action_item_manager,mom.action.item.manager,model_mom_action_item,base.group_system,1,1,1,1

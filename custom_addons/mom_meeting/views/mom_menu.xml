@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Top-level App Menu -->
+    <menuitem id="menu_mom_root"
+              name="Minutes of Meeting"
+              sequence="90"
+              web_icon="mom_meeting,static/description/icon.png"/>
+
+    <!-- Main menu -->
+    <menuitem id="menu_mom_main"
+              name="Meetings"
+              parent="menu_mom_root"
+              sequence="10"/>
+
+    <!-- Sub menus -->
+    <menuitem id="menu_mom_meeting_list"
+              name="All Meetings"
+              parent="menu_mom_main"
+              action="action_mom_meeting"
+              sequence="10"/>
+
+    <!-- Configuration menu -->
+    <menuitem id="menu_mom_config"
+              name="Configuration"
+              parent="menu_mom_root"
+              sequence="99"
+              groups="base.group_system"/>
+
+</odoo>

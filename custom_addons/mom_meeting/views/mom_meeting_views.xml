@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════════
+         FORM VIEW
+    ═══════════════════════════════════════════════════════ -->
+    <record id="view_mom_meeting_form" model="ir.ui.view">
+        <field name="name">mom.meeting.form</field>
+        <field name="model">mom.meeting</field>
+        <field name="arch" type="xml">
+            <form string="Minutes of Meeting">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="oe_highlight"
+                            invisible="state != 'draft'"/>
+                    <button name="action_done" string="Mark as Done" type="object"
+                            class="oe_highlight"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            invisible="state in ('done','cancelled')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object"
+                            invisible="state not in ('cancelled',)"/>
+                    <button name="action_print_report" string="Print MOM" type="object"
+                            class="btn-secondary" icon="fa-print"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,done"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                                name="action_print_report"
+                                icon="fa-file-text-o">
+                            <field name="action_item_count" widget="statinfo"
+                                   string="Action Items"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                        <label for="meeting_title"/>
+                        <h2>
+                            <field name="meeting_title" placeholder="e.g. Phase 2 Requirements Gathering"/>
+                        </h2>
+                    </div>
+
+                    <!-- ── Meeting Info ── -->
+                    <group string="Meeting Information">
+                        <group>
+                            <field name="meeting_date"/>
+                            <field name="meeting_time" widget="float_time"/>
+                            <field name="meeting_duration" widget="float_time"/>
+                            <field name="location" placeholder="Office / Google Meet / Zoom..."/>
+                        </group>
+                        <group>
+                            <field name="chaired_by"/>
+                            <field name="prepared_by"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <!-- ── Client & Project ── -->
+                    <group string="Client &amp; Project">
+                        <group>
+                            <field name="client_id"/>
+                            <field name="client_contact_id"/>
+                            <field name="client_email" readonly="1"/>
+                            <field name="client_phone" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="project_type"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+
+                        <!-- ── TAB 1: Participants ── -->
+                        <page string="Participants" name="participants">
+                            <group>
+                                <group string="Our Team">
+                                    <field name="participant_ids" widget="many2many_tags"
+                                           nolabel="1"
+                                           placeholder="Select internal team members..."/>
+                                </group>
+                                <group string="Client Side">
+                                    <field name="client_participant_ids" widget="many2many_tags"
+                                           nolabel="1"
+                                           placeholder="Select client contacts..."/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- ── TAB 2: Agenda ── -->
+                        <page string="Agenda" name="agenda">
+                            <field name="agenda" placeholder="List the meeting agenda points..."/>
+                        </page>
+
+                        <!-- ── TAB 3: Discussion & Requirements ── -->
+                        <page string="Requirements &amp; Discussion" name="requirements">
+                            <field name="requirements_discussed"
+                                   placeholder="Document client requirements, feature requests, change requests raised during the meeting..."/>
+                        </page>
+
+                        <!-- ── TAB 4: Project Updates ── -->
+                        <page string="Project Status Updates" name="project_updates">
+                            <field name="project_update_notes"
+                                   placeholder="Document project progress, milestone updates, deliverable status, blockers discussed..."/>
+                        </page>
+
+                        <!-- ── TAB 5: Decisions ── -->
+                        <page string="Decisions Made" name="decisions">
+                            <field name="decisions_made"
+                                   placeholder="List all decisions and approvals made during the meeting..."/>
+                        </page>
+
+                        <!-- ── TAB 6: Action Items ── -->
+                        <page string="Action Items" name="action_items">
+                            <field name="action_item_ids">
+                                <list editable="bottom" string="Action Items">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="description"/>
+                                    <field name="responsible_id"/>
+                                    <field name="deadline"/>
+                                    <field name="priority" widget="priority"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'done'"
+                                           decoration-warning="state == 'in_progress'"
+                                           decoration-danger="state == 'pending'"
+                                           decoration-muted="state == 'cancelled'"/>
+                                    <field name="carried_over"/>
+                                    <field name="notes" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ── TAB 7: Next Meeting ── -->
+                        <page string="Next Meeting" name="next_meeting">
+                            <group>
+                                <field name="next_meeting_date"/>
+                                <field name="next_meeting_agenda"
+                                       placeholder="Topics to cover in the next meeting..."/>
+                            </group>
+                        </page>
+
+                        <!-- ── TAB 8: Remarks ── -->
+                        <page string="Additional Notes" name="notes">
+                            <field name="general_notes"
+                                   placeholder="Any additional notes, observations or remarks..."/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+
+                <!-- Chatter -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════
+         LIST VIEW
+    ═══════════════════════════════════════════════════════ -->
+    <!-- LIST VIEW -->
+<record id="view_mom_meeting_list" model="ir.ui.view">
+    <field name="name">mom.meeting.list</field>
+    <field name="model">mom.meeting</field>
+    <field name="arch" type="xml">
+        <list string="Minutes of Meetings">
+            <field name="name"/>
+            <field name="meeting_date"/>
+            <field name="meeting_title"/>
+            <field name="client_id"/>
+            <field name="project_id"/>
+            <field name="project_type"/>
+            <field name="chaired_by"/>
+            <field name="action_item_count"/>
+            <field name="state"/>
+        </list>
+    </field>
+</record>
+
+<!-- CALENDAR VIEW -->
+<record id="view_mom_meeting_calendar" model="ir.ui.view">
+    <field name="name">mom.meeting.calendar</field>
+    <field name="model">mom.meeting</field>
+    <field name="arch" type="xml">
+        <calendar string="Meetings"
+                  date_start="meeting_date"
+                  quick_create="false">
+            <field name="meeting_title"/>
+            <field name="client_id"/>
+            <field name="state"/>
+        </calendar>
+    </field>
+</record>
+
+<!-- ACTION -->
+<record id="action_mom_meeting" model="ir.actions.act_window">
+    <field name="name">Minutes of Meeting</field>
+    <field name="res_model">mom.meeting</field>
+    <field name="view_mode">list,form,calendar</field>
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Create your first Minutes of Meeting!
+        </p>
+    </field>
+</record>
+</odoo>
