@@ -22,7 +22,7 @@ jobs:
 
       - name: Validate Docker Compose
         run: |
-          docker-compose config
+          docker compose config
           
       - name: Set up Python
         uses: actions/setup-python@v5
