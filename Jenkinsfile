@@ -28,20 +28,11 @@ pipeline {
             }
         }
 
-        stage('Deploy to Live Server') {
+        stage('Deploy') {
             steps {
                 script {
-                    echo 'Deploying to live environment via SSH...'
-                    // We use sshagent to securely use your Jenkins SSH credentials
-                    // 'live-server-key' is the ID of the credential you will create in Jenkins
-                    sshagent(credentials: ['live-server-key']) {
-                        // Change YOUR_SERVER_IP to your actual Ubuntu server IP address
-                        if (isUnix()) {
-                            sh 'ssh -o StrictHostKeyChecking=no root@YOUR_SERVER_IP "cd /odoo/tresvance_erp_live && git pull origin main && docker-compose up -d --build"'
-                        } else {
-                            bat 'ssh -o StrictHostKeyChecking=no root@YOUR_SERVER_IP "cd /odoo/tresvance_erp_live && git pull origin main && docker-compose up -d --build"'
-                        }
-                    }
+                    echo 'Deploying to live environment...'
+                    sh 'cd /odoo/tresvance_erp_live && docker compose up -d --build'
                 }
             }
         }
